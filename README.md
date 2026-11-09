@@ -6,21 +6,28 @@ Served at: `https://zone-linux.github.io/zone-3party-repo/x86_64/`
 
 ## Contents
 
-Packages built from AUR sources listed in `zone-pkgbuild/3rdparty_pkgbuild/aurpackages`:
+Packages built from the AUR sources listed in
+`zone-pkgbuild/3rdparty_pkgbuild/aurpackages`:
 
-`ani-cli-git`, `cava`, `ckbcomp`, `grub2-theme-preview`, `kvantum-theme-qogir-git`,
-`minecraft-launcher`, `mkinitcpio-openswap`, `nerd-fonts-jetbrains-mono`,
+`ani-cli-git`, `calamares`, `ckbcomp`, `grub2-theme-preview`,
+`kvantum-theme-qogir-git`, `minecraft-launcher`, `mkinitcpio-openswap`,
 `oh-my-zsh-git`, `paru-bin`, `qogir-gtk-theme-git`, `qogir-icon-theme-git`,
-`shell-color-scripts`, `tty-clock-git`, `ulauncher`, `unimatrix-git`,
-`xfce-polkit`, `ytfzf-git`
+`tty-clock-git`, `ulauncher`, `unimatrix-git`, `xfce-polkit`, `ytfzf-git`
+
+`cava`, `nerd-fonts-jetbrains-mono`, and `shell-color-scripts` were removed: `cava`
+and the Nerd font are available from the official repositories, and
+`shell-color-scripts` is no longer packaged.
 
 ## Updating
 
-Clone the latest AUR PKGBUILDs on a Linux host using `zone-pkgbuild/3rdparty_pkgbuild/get-pkgs.sh`,
-build them, and run `zone-pkgbuild/upd-3party.sh` to publish.
+```bash
+cd zone-pkgbuild
+./3rdparty_pkgbuild/get-pkgs.sh          # clone or update AUR checkouts
+./build.sh --3party --no-publish
+./publish.sh --3party --prune --verify
+./publish.sh --3party --commit           # commit locally; never pushes
+```
 
-## Note
-
-The `nerd-fonts-jetbrains-mono` package in this repo is at version 2.1.0-3 (2022).
-The Arch official repos now carry `ttf-jetbrains-mono-nerd` — the ISO `packages.x86_64`
-has been updated to use the official package instead of this custom one.
+Publishing keeps the newest staged package per name, drops `*-debug` packages,
+removes orphans, retains two versions by default, and rebuilds the database so it
+always references the newest on-disk archive.
